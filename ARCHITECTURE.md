@@ -1,6 +1,6 @@
 # Portfolio - Plan de Mejoras y Documentación Técnica
 
-> Última actualización: Enero 2026
+> Última actualización: 16 Enero 2026
 > Mantenedor: Frontend Team
 
 ---
@@ -63,65 +63,84 @@ portfolio/
 
 ### 1. Rendimiento (Performance)
 
-| Problema | Impacto | Severidad | Ubicación |
-|----------|---------|-----------|-----------|
-| Uso de `<img>` nativo | Sin optimización automática de imágenes | 🔴 Alta | `Projects.tsx:19` |
-| SVGs inline | Bundle size mayor, sin reuse | 🟡 Media | `Contact.tsx`, `Projects.tsx` |
-| Sin lazy loading | Carga inicial más lenta | 🟡 Media | Todas las secciones |
-| Animaciones CSS sin `prefers-reduced-motion` | Problemas de accesibilidad | 🟡 Media | `globals.css` |
+| Problema | Impacto | Severidad | Estado |
+|----------|---------|-----------|--------|
+| ~~Uso de `<img>` nativo~~ | ~~Sin optimización automática de imágenes~~ | ~~🔴 Alta~~ | ✅ Resuelto |
+| ~~SVGs inline~~ | ~~Bundle size mayor, sin reuse~~ | ~~🟡 Media~~ | ✅ Resuelto (lucide-react) |
+| Sin lazy loading | Hook existe pero no integrado | 🟡 Media | ⚠️ Parcial |
+| ~~Animaciones CSS sin `prefers-reduced-motion`~~ | ~~Problemas de accesibilidad~~ | ~~🟡 Media~~ | ✅ Resuelto |
 
-**Acciones Requeridas:**
-- Reemplazar `<img>` por `<Image />` de Next.js
-- Implementar sistema de iconos con tree-shaking (lucide-react o heroicons)
-- Añadir lazy loading a componentes pesados
+**Estado actual:**
+- ✅ `next/image` implementado en Projects.tsx con sizes responsivos y formatos avif/webp
+- ✅ Sistema de iconos con lucide-react y componente Icon type-safe
+- ⚠️ `useIntersectionObserver` hook existe pero no está integrado con ScrollReveal
+- ✅ `prefers-reduced-motion` implementado en globals.css
 
 ### 2. Accesibilidad (WCAG 2.1 AA)
 
-| Problema | WCAG | Severidad | Ubicación |
-|----------|------|-----------|-----------|
-| Falta skip-link | 2.4.1 | 🔴 Alta | Navbar |
-| Sin aria-labels | 1.1.1 | 🔴 Alta | Navbar, Contact |
-| Contraste insuficiente | 1.4.3 | 🟡 Media | white/70 sobre white |
-| No hay focus visible | 2.4.7 | 🟡 Media | Componentes interactivos |
-| Faltan landmark regions | 1.3.1 | 🟡 Media | Layout |
+| Problema | WCAG | Severidad | Estado |
+|----------|------|-----------|--------|
+| ~~Falta skip-link~~ | ~~2.4.1~~ | ~~🔴 Alta~~ | ✅ Resuelto |
+| ~~Sin aria-labels~~ | ~~1.1.1~~ | ~~🔴 Alta~~ | ✅ Resuelto |
+| Contraste insuficiente | 1.4.3 | 🟡 Media | ⚠️ Pendiente revisión |
+| ~~No hay focus visible~~ | ~~2.4.7~~ | ~~🟡 Media~~ | ✅ Resuelto |
+| ~~Faltan landmark regions~~ | ~~1.3.1~~ | ~~🟡 Media~~ | ✅ Resuelto |
 
-**Criterios WCAG Afectados:**
-- 1.1.1 Non-text Content
-- 1.3.1 Info and Relationships
-- 1.4.3 Contrast (Minimum)
-- 2.4.1 Bypass Blocks
-- 2.4.7 Focus Visible
+**Estado actual:**
+- ✅ `SkipLink.tsx` implementado con estilos sr-only y focus visible
+- ✅ aria-labels en Navbar (`aria-label="Main navigation"`), Contact, Footer, Projects
+- ✅ `focus-visible` CSS definido globalmente en globals.css
+- ✅ Landmark regions: `<header>`, `<nav>`, `<main role="main">`, `<footer role="contentinfo">`
+- ✅ `aria-labelledby` en secciones (Experience, Hero)
+- ⚠️ Contraste de colores (white/70) pendiente de revisión
 
 ### 3. Calidad de Código
 
-| Problema | Estado Actual | Estado Esperado |
-|----------|---------------|-----------------|
-| Duplicación de lógica | `formatDate` en `Experience.tsx:3` | Utility function reusable |
-| Hardcoded colors | Algunos componentes | CSS variables system |
-| Testing framework | ❌ No configurado | ✅ Jest + React Testing Library |
-| Tipos incompletos | `siteConfig` con any implícitos | 100% strict |
+| Problema | Estado Actual | Estado Esperado | Estado |
+|----------|---------------|-----------------|--------|
+| ~~Duplicación de lógica~~ | ~~`formatDate` en Experience.tsx~~ | ~~Utility function reusable~~ | ✅ Resuelto |
+| Hardcoded colors | Algunos componentes | CSS variables system | ⚠️ Parcial |
+| ~~Testing framework~~ | ~~❌ No configurado~~ | ~~✅ Jest + RTL~~ | ✅ Configurado |
+| Test coverage | ~10% (17 tests) | >70% | ⚠️ En progreso |
+| ~~Tipos incompletos~~ | ~~any implícitos~~ | ~~100% strict~~ | ✅ Resuelto |
+
+**Estado actual:**
+- ✅ `formatDate` y `getDuration` en `src/lib/utils/date.ts`
+- ✅ `cn` utility en `src/lib/utils/cn.ts` (usando clsx)
+- ✅ Jest configurado con jsdom, ts-jest, y mocks de Next.js
+- ✅ TypeScript strict mode habilitado
+- ⚠️ Solo 3 archivos de tests: `cn.test.ts`, `date.test.ts`, `Icon.test.tsx` (17 casos)
+- ⚠️ Faltan tests para: Navbar, Layout, Contact, Projects, Skills, Experience, Footer
 
 ### 4. DX y Mantenibilidad
 
 | Feature | Estado | Notas |
 |---------|--------|-------|
-| Pre-commit hooks | ❌ | Husky no configurado |
-| Storybook | ❌ | No hay documentación de componentes |
-| ESLint extendido | ⚠️ | Solo usa defaults de next |
-| Change-log | ❌ | No existe |
-| Contributing guide | ❌ | No existe |
+| Pre-commit hooks | ❌ Pendiente | Husky no configurado |
+| Storybook | ❌ Pendiente | No hay documentación de componentes |
+| ESLint extendido | ⚠️ Básico | Solo usa next/core-web-vitals y next/typescript |
+| Prettier | ❌ Pendiente | No configurado |
+| Change-log | ⚠️ Parcial | Este archivo sirve como changelog |
+| Contributing guide | ⚠️ Parcial | Guidelines en este archivo |
+
+**Acciones pendientes:**
+- Instalar `husky` y `lint-staged`
+- Configurar Storybook para documentación de componentes
+- Extender ESLint con: `eslint-plugin-jsx-a11y`, `eslint-plugin-react-hooks`
 
 ### 5. Features Faltantes
 
-| Feature | Prioridad | Complejidad |
-|---------|-----------|-------------|
-| Modo dark/light | Alta | Media |
-| i18n (multi-idioma) | Media | Alta |
-| Blog/articles | Media | Media |
-| Scroll animations | Media | Baja |
-| SEO metadata dinámico | Alta | Baja |
-| Analytics | Baja | Baja |
-| Sitemap.xml | Media | Baja |
+| Feature | Prioridad | Complejidad | Estado |
+|---------|-----------|-------------|--------|
+| Modo dark/light | Alta | Media | ❌ Pendiente |
+| i18n (multi-idioma) | Media | Alta | ❌ Pendiente |
+| Blog/articles | Media | Media | ❌ Pendiente |
+| Scroll animations | Media | Baja | ⚠️ Hook listo, falta integrar |
+| SEO metadata dinámico | Alta | Baja | ⚠️ Básico (sin generateMetadata) |
+| Analytics | Baja | Baja | ❌ Pendiente |
+| Sitemap.xml | Media | Baja | ❌ Pendiente |
+
+**Nota:** El hook `useIntersectionObserver` está implementado en `src/lib/hooks/` pero no se ha creado el componente `ScrollReveal` ni se ha integrado en las secciones.
 
 ### 6. Seguridad
 
@@ -147,12 +166,12 @@ npm install -D jest @testing-library/react @testing-library/jest-dom jest-enviro
 ```
 
 **Entregables:**
-- [ ] `jest.config.ts` configurado
-- [ ] `jest.setup.ts` con mocks de Next.js
-- [ ] Coverage mínimo: 70%
+- [x] `jest.config.ts` configurado
+- [x] `jest.setup.ts` con mocks de Next.js
+- [ ] Coverage mínimo: 70% (actual: ~10%)
 - [ ] Tests unitarios para:
-  - [ ] Utility functions (`formatDate`, `truncate`, etc.)
-  - [ ] Componentes UI (`Button`, `Card`, `Input`)
+  - [x] Utility functions (`formatDate`, `cn`)
+  - [x] Componentes UI (`Icon`)
   - [ ] Secciones principales (`Hero`, `Skills`, etc.)
 
 #### 1.2 ESLint Extendido
@@ -1103,12 +1122,12 @@ export async function GET() {
 
 ### Métricas de Código
 
-| Métrica | Actual | Objetivo |
-|---------|--------|----------|
-| Test Coverage | 0% | >70% |
-| TypeScript Strict | Parcial | 100% |
-| ESLint Errors | warnings | 0 errors |
-| Bundle Size (Gzipped) | ~150KB | <100KB |
+| Métrica | Actual | Objetivo | Estado |
+|---------|--------|----------|--------|
+| Test Coverage | ~10% | >70% | ⚠️ En progreso |
+| TypeScript Strict | 100% | 100% | ✅ Completado |
+| ESLint Errors | warnings | 0 errors | ⚠️ Config básica |
+| Bundle Size (Gzipped) | ~150KB | <100KB | Pendiente medir |
 
 ---
 
@@ -1135,19 +1154,19 @@ Semana 5-6│██████████████████████�
 
 ## 🎯 Acciones Inmediatas (Sprint Actual)
 
-### Alta Prioridad
+### Alta Prioridad - COMPLETADO ✅
 
-- [ ] Implementar `next/image` en Projects.tsx
-- [ ] Añadir skip-link y aria-labels en Navbar
-- [ ] Configurar Jest y escribir primeros tests
+- [x] Implementar `next/image` en Projects.tsx
+- [x] Añadir skip-link y aria-labels en Navbar
+- [x] Configurar Jest y escribir primeros tests
 - [ ] Corregir contraste de colores (white/70 → white/80)
 
-### Media Prioridad
+### Media Prioridad - PARCIALMENTE COMPLETADO
 
-- [ ] Implementar sistema de iconos con lucide-react
+- [x] Implementar sistema de iconos con lucide-react
 - [ ] Configurar ThemeProvider para dark mode
 - [ ] Añadir pre-commit hooks con husky
-- [ ] Crear utility functions (cn, formatDate)
+- [x] Crear utility functions (cn, formatDate)
 
 ### Baja Prioridad (Siguiente Sprint)
 
@@ -1155,6 +1174,13 @@ Semana 5-6│██████████████████████�
 - [ ] Implementar i18n
 - [ ] Añadir Blog section
 - [ ] Generar sitemap.xml
+
+### Nuevas Tareas Identificadas
+
+- [ ] Aumentar test coverage (objetivo: 70%)
+- [ ] Integrar `useIntersectionObserver` con ScrollReveal
+- [ ] Implementar `generateMetadata()` dinámico en page.tsx
+- [ ] Extender ESLint con plugins de a11y y react-hooks
 
 ---
 
@@ -1212,14 +1238,28 @@ chore: configure husky pre-commit hooks
 ### v0.2.0 (En Desarrollo)
 
 #### Added
-- Plan de mejoras documentado
-- Configuración inicial de testing (pendiente)
-- Sistema de iconos con lucide-react (pendiente)
+- ✅ Plan de mejoras documentado
+- ✅ Configuración de Jest con React Testing Library
+- ✅ Sistema de iconos con lucide-react (`Icon.tsx`)
+- ✅ Componente `SkipLink` para accesibilidad
+- ✅ Utility functions: `cn`, `formatDate`, `getDuration`
+- ✅ Custom hooks: `useScroll`, `useIntersectionObserver`
+- ✅ Tests unitarios para utilities y Icon component
 
 #### Changed
-- Migración de img a next/image (pendiente)
-- Colores con CSS variables para dark mode (pendiente)
+- ✅ Migración de `<img>` a `next/image` en Projects.tsx
+- ✅ Navbar con aria-labels y roles ARIA completos
+- ✅ Footer con semantic markup y landmark regions
+- ✅ globals.css con `prefers-reduced-motion` y `focus-visible`
+
+#### Pending
+- ⏳ Dark mode con next-themes
+- ⏳ Test coverage >70%
+- ⏳ ScrollReveal component integration
+- ⏳ Dynamic SEO metadata
+- ⏳ Husky pre-commit hooks
+- ⏳ Extended ESLint configuration
 
 ---
 
-> Este documento será actualizado regularmente. Última revisión: Enero 2026
+> Este documento será actualizado regularmente. Última revisión: 16 Enero 2026

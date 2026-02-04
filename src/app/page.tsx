@@ -1,14 +1,17 @@
-import Hero from "@/components/sections/Hero";
-import Projects from "@/components/sections/Projects";
-import Skills from "@/components/sections/Skills";
-import ExperienceSection from "@/components/sections/Experience";
-import Contact from "@/components/sections/Contact";
-import Layout from "@/components/layout/Layout";
-import { getPortfolioData } from "@/services/portfolio";
-import { Profile } from "@/types";
+import { profileRepository, Hero, Contact } from "@/features/profile";
+import { projectRepository, Projects } from "@/features/projects";
+import { skillRepository, Skills } from "@/features/skills";
+import { experienceRepository, ExperienceSection } from "@/features/experience";
+import Layout from "@/shared/components/layout/Layout";
+import type { Profile } from "@/features/profile";
 
 export default async function HomePage() {
-  const { profile, projects, skills, experiences } = await getPortfolioData();
+  const [profile, projects, skills, experiences] = await Promise.all([
+    profileRepository.getProfile(),
+    projectRepository.getProjects(),
+    skillRepository.getSkills(),
+    experienceRepository.getExperiences(),
+  ]);
 
   const defaultProfile: Profile = {
     id: "default",

@@ -1,0 +1,12 @@
+node_modules
+.next
+.git
+.gitignore
+coverage
+*.md
+*.test.*
+*.spec.*
+__tests__
+.env*.local
+prisma/*.db
+prisma/*.db-journal
