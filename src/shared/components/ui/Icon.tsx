@@ -5,7 +5,19 @@ import {
   ExternalLink,
   Code,
   Mail,
-  ChevronRight
+  ChevronRight,
+  ChevronDown,
+  Menu,
+  X,
+  ArrowRight,
+  ArrowUpRight,
+  Calendar,
+  MapPin,
+  Briefcase,
+  Sparkles,
+  Zap,
+  Globe,
+  Terminal,
 } from 'lucide-react';
 
 const icons = {
@@ -16,6 +28,18 @@ const icons = {
   code: Code,
   mail: Mail,
   chevronRight: ChevronRight,
+  chevronDown: ChevronDown,
+  menu: Menu,
+  x: X,
+  arrowRight: ArrowRight,
+  arrowUpRight: ArrowUpRight,
+  calendar: Calendar,
+  mapPin: MapPin,
+  briefcase: Briefcase,
+  sparkles: Sparkles,
+  zap: Zap,
+  globe: Globe,
+  terminal: Terminal,
 } as const;
 
 type IconName = keyof typeof icons;
