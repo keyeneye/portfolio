@@ -1,13 +1,13 @@
 "use client";
 
 import { Skill } from "../domain/Skill";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 
 interface SkillsProps {
   skills: Skill[];
 }
 
-const categoryColors: Record<string, { text: string; bg: string; glow: string }> = {
+const CATEGORY_COLORS: Record<string, { text: string; bg: string; glow: string }> = {
   Frontend: { text: "text-syntax-cyan", bg: "bg-accent-muted", glow: "hover:shadow-[0_0_20px_rgba(34,211,238,0.3)]" },
   Backend: { text: "text-syntax-green", bg: "bg-success-muted", glow: "hover:shadow-[0_0_20px_rgba(74,222,128,0.3)]" },
   Tools: { text: "text-syntax-violet", bg: "bg-secondary-muted", glow: "hover:shadow-[0_0_20px_rgba(167,139,250,0.3)]" },
@@ -15,17 +15,23 @@ const categoryColors: Record<string, { text: string; bg: string; glow: string }>
   Other: { text: "text-syntax-pink", bg: "bg-syntax-pink/10", glow: "hover:shadow-[0_0_20px_rgba(244,114,182,0.3)]" },
 };
 
+const getColors = (category: string) => {
+  return CATEGORY_COLORS[category] || CATEGORY_COLORS.Other;
+};
+
 export default function Skills({ skills }: SkillsProps) {
-  const categories = [...new Set(skills.map((skill) => skill.category))];
   const [activeCategory, setActiveCategory] = useState<string | null>(null);
 
-  const getColors = (category: string) => {
-    return categoryColors[category] || categoryColors.Other;
-  };
+  const categories = useMemo(() => {
+    const uniqueCategories = new Set(skills.map((skill) => skill.category));
+    return Array.from(uniqueCategories);
+  }, [skills]);
 
-  const filteredSkills = activeCategory
-    ? skills.filter((skill) => skill.category === activeCategory)
-    : skills;
+  const filteredSkills = useMemo(() => {
+    return activeCategory
+      ? skills.filter((skill) => skill.category === activeCategory)
+      : skills;
+  }, [skills, activeCategory]);
 
   return (
     <section id="skills" className="relative py-24">
@@ -41,10 +47,10 @@ export default function Skills({ skills }: SkillsProps) {
         </div>
 
         {/* Category filters */}
-        <div className="flex flex-wrap gap-2 mb-10 animate-fadeInUp" style={{ animationDelay: "0.1s" }}>
+        <div className="flex flex-wrap gap-2 mb-8 sm:mb-10 animate-fadeInUp" style={{ animationDelay: "0.1s" }}>
           <button
             onClick={() => setActiveCategory(null)}
-            className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+            className={`px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 ${
               activeCategory === null
                 ? "bg-accent text-void"
                 : "bg-surface text-light-muted hover:text-light border border-stroke hover:border-stroke-glow"
@@ -58,7 +64,7 @@ export default function Skills({ skills }: SkillsProps) {
               <button
                 key={category}
                 onClick={() => setActiveCategory(category)}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                className={`px-3 sm:px-4 py-2 rounded-lg text-xs sm:text-sm font-medium transition-all duration-200 ${
                   activeCategory === category
                     ? `${colors.bg} ${colors.text}`
                     : "bg-surface text-light-muted hover:text-light border border-stroke hover:border-stroke-glow"
@@ -71,23 +77,23 @@ export default function Skills({ skills }: SkillsProps) {
         </div>
 
         {/* Skills grid */}
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 sm:gap-3">
           {filteredSkills.map((skill, index) => {
             const colors = getColors(skill.category);
             return (
               <div
                 key={skill.id}
-                className={`group relative p-4 rounded-xl bg-surface border border-stroke transition-all duration-300 hover:border-transparent hover:-translate-y-1 ${colors.glow} animate-fadeInUp`}
+                className={`group relative p-3 sm:p-4 rounded-xl bg-surface border border-stroke transition-all duration-300 hover:border-transparent hover:-translate-y-1 ${colors.glow} animate-fadeInUp`}
                 style={{ animationDelay: `${0.1 + index * 0.03}s` }}
               >
-                <div className="flex flex-col items-center text-center gap-2">
-                  <span className={`text-2xl ${colors.text} transition-transform duration-300 group-hover:scale-110`}>
+                <div className="flex flex-col items-center text-center gap-1 sm:gap-2">
+                  <span className={`text-xl sm:text-2xl ${colors.text} transition-transform duration-300 group-hover:scale-110`}>
                     {"</>"}
                   </span>
-                  <span className="text-sm font-medium text-light">
+                  <span className="text-xs sm:text-sm font-medium text-light">
                     {skill.name}
                   </span>
-                  <span className={`text-xs ${colors.text} opacity-60`}>
+                  <span className={`text-xs ${colors.text} opacity-60 hidden sm:block`}>
                     {skill.category}
                   </span>
                 </div>

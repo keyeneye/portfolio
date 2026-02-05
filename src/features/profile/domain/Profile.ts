@@ -11,3 +11,10 @@ export interface Profile {
   createdAt: Date;
   updatedAt: Date;
 }
+
+export interface HeroProps {
+  name: string;
+  title?: string;
+  bio?: string;
+  email?: string;
+}

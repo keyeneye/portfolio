@@ -2,13 +2,9 @@
 
 import Link from "next/link";
 import { Icon } from "@/shared/components/ui/Icon";
+import { HeroProps } from "../domain/Profile";
 
-interface HeroProps {
-  name: string;
-  title: string;
-  bio: string;
-  email: string;
-}
+
 
 export default function Hero({ name, title, bio, email }: HeroProps) {
   return (
@@ -19,8 +15,8 @@ export default function Hero({ name, title, bio, email }: HeroProps) {
     >
       {/* Background gradient orbs */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 -left-1/4 w-96 h-96 bg-accent/20 rounded-full blur-[128px] animate-pulse" />
-        <div className="absolute bottom-1/4 -right-1/4 w-96 h-96 bg-secondary/20 rounded-full blur-[128px] animate-pulse" style={{ animationDelay: "1s" }} />
+        <div className="absolute top-1/4 -left-1/4 w-32 h-32 sm:w-48 sm:h-48 md:w-72 md:h-72 lg:w-96 lg:h-96 bg-accent/20 rounded-full blur-[48px] sm:blur-[64px] md:blur-[96px] lg:blur-[128px] animate-pulse" />
+        <div className="absolute bottom-1/4 -right-1/4 w-32 h-32 sm:w-48 sm:h-48 md:w-72 md:h-72 lg:w-96 lg:h-96 bg-secondary/20 rounded-full blur-[48px] sm:blur-[64px] md:blur-[96px] lg:blur-[128px] animate-pulse" style={{ animationDelay: "1s" }} />
       </div>
 
       <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-20">
@@ -53,15 +49,15 @@ export default function Hero({ name, title, bio, email }: HeroProps) {
           </h2>
 
           {/* Bio */}
-          <p className="text-lg text-light-muted mb-10 leading-relaxed max-w-2xl animate-fadeInUp stagger-3">
+          <p className="text-base sm:text-lg text-light-muted mb-8 sm:mb-10 leading-relaxed max-w-2xl animate-fadeInUp stagger-3">
             {bio}
           </p>
 
           {/* CTAs */}
-          <div className="flex flex-wrap items-center gap-4 animate-fadeInUp stagger-4">
+          <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3 sm:gap-4 animate-fadeInUp stagger-4">
             <Link
               href="#projects"
-              className="btn-primary group"
+              className="btn-primary group justify-center"
               aria-label="View my projects"
             >
               <span>View Projects</span>
@@ -69,39 +65,13 @@ export default function Hero({ name, title, bio, email }: HeroProps) {
             </Link>
             <a
               href={`mailto:${email}`}
-              className="btn-secondary group"
+              className="btn-secondary group justify-center"
               aria-label={`Send email to ${email}`}
             >
               <Icon name="mail" size="sm" />
               <span>Get in Touch</span>
             </a>
-          </div>
-
-          {/* Tech stack preview */}
-          <div className="mt-16 pt-8 border-t border-stroke animate-fadeInUp stagger-5">
-            <p className="text-sm text-light-subtle mb-4 uppercase tracking-wider">
-              Tech I work with
-            </p>
-            <div className="flex flex-wrap gap-3">
-              {["React", "TypeScript", "Next.js", "Node.js", "Tailwind"].map((tech, i) => (
-                <span
-                  key={tech}
-                  className="tag hover:border-glow transition-all duration-300"
-                  style={{ animationDelay: `${0.6 + i * 0.1}s` }}
-                >
-                  {tech}
-                </span>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-float">
-        <div className="flex flex-col items-center gap-2 text-light-subtle">
-          <span className="text-xs uppercase tracking-widest">Scroll</span>
-          <Icon name="chevronDown" size="sm" />
+          </div>         
         </div>
       </div>
     </section>

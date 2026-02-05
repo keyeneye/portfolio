@@ -1,9 +1,14 @@
-import { profileRepository, Hero, Contact } from "@/features/profile";
-import { projectRepository, Projects } from "@/features/projects";
-import { skillRepository, Skills } from "@/features/skills";
-import { experienceRepository, ExperienceSection } from "@/features/experience";
+import { profileRepository } from "@/features/profile/data/PrismaProfileRepository";
+import Hero from "@/features/profile/presentation/Hero";
+import Contact from "@/features/profile/presentation/Contact";
+import type { Profile } from "@/features/profile/domain/Profile";
+import { projectRepository } from "@/features/projects/data/PrismaProjectRepository";
+import Projects from "@/features/projects/presentation/Projects";
+import { skillRepository } from "@/features/skills/data/PrismaSkillRepository";
+import Skills from "@/features/skills/presentation/Skills";
+import { experienceRepository } from "@/features/experience/data/PrismaExperienceRepository";
+import ExperienceSection from "@/features/experience/presentation/Experience";
 import Layout from "@/shared/components/layout/Layout";
-import type { Profile } from "@/features/profile";
 
 export default async function HomePage() {
   const [profile, projects, skills, experiences] = await Promise.all([

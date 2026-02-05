@@ -14,7 +14,7 @@ interface LayoutProps {
 export default function Layout({ children, profile }: LayoutProps) {
   return (
     <>
-      <Navbar />
+      <Navbar name={profile?.name || "Your name"}/>
       <main id="main-content" className="min-h-screen" role="main" tabIndex={-1}>
         {children}
       </main>

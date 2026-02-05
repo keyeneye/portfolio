@@ -3,58 +3,103 @@ import { PrismaClient } from "@prisma/client";
 const prisma = new PrismaClient();
 
 async function main() {
+  // Limpiar datos existentes
+  await prisma.experience.deleteMany();
+  await prisma.project.deleteMany();
+  await prisma.skill.deleteMany();
+  await prisma.profile.deleteMany();
+
   await prisma.profile.create({
     data: {
-      name: "John Doe",
-      title: "Frontend Developer",
-      bio: "Passionate about building beautiful, accessible, and performant web applications. I specialize in React, Next.js, and modern frontend technologies.",
-      email: "john.doe@example.com",
-      github: "https://github.com/johndoe",
-      linkedin: "https://linkedin.com/in/johndoe",
-      twitter: "https://twitter.com/johndoe",
+      name: "David Ricardo Mendoza Perez",
+      title: "Frontend Senior Developer",
+      bio: "Senior Frontend Developer with over 6 years of experience building robust and optimized web applications. Specialized in React, Next.js, Angular, and Node.js, with strong knowledge in TypeScript, automated testing, and performance optimization. Proven experience leading technical teams and contributing to high-impact projects across industries such as banking, digital payments, and telecommunications. Passionate about innovation and continuous improvement, with strong skills in project management and team mentoring.\n\nLocation: Mexico City, Mexico | Phone: (+52) 5538978000",
+      email: "david02ing@gmail.com",
+      linkedin: "https://www.linkedin.com/in/davidricardomendoza",
     },
   });
 
   await prisma.skill.createMany({
     data: [
+      // Frontend Frameworks
       { name: "React", category: "Frontend" },
       { name: "Next.js", category: "Frontend" },
+      { name: "Vite", category: "Frontend" },
+      { name: "Angular", category: "Frontend" },
+      // Languages
+      { name: "JavaScript (ES6+)", category: "Languages" },
       { name: "TypeScript", category: "Languages" },
-      { name: "JavaScript", category: "Languages" },
+      { name: "Python", category: "Languages" },
+      { name: "HTML5", category: "Languages" },
+      { name: "CSS3", category: "Languages" },
+      // Styling
       { name: "Tailwind CSS", category: "Styling" },
-      { name: "CSS3", category: "Styling" },
-      { name: "Node.js", category: "Backend" },
-      { name: "Prisma", category: "Database" },
+      { name: "SASS", category: "Styling" },
+      { name: "LESS", category: "Styling" },
+      // Optimization
+      { name: "Web Performance", category: "Optimization" },
+      { name: "SEO", category: "Optimization" },
+      { name: "Lazy Loading", category: "Optimization" },
+      { name: "Caching", category: "Optimization" },
+      { name: "Lighthouse Audits", category: "Optimization" },
+      // Testing
+      { name: "Jest", category: "Testing" },
+      { name: "Cypress", category: "Testing" },
+      { name: "Enzyme", category: "Testing" },
+      // Tools
+      { name: "Webpack", category: "Tools" },
+      { name: "Vite", category: "Tools" },
       { name: "Git", category: "Tools" },
-      { name: "Figma", category: "Design" },
+      { name: "Docker", category: "Tools" },
+      // Backend
+      { name: "Node.js", category: "Backend" },
+      { name: "Express", category: "Backend" },
+      { name: "REST API", category: "Backend" },
+      { name: "Microservices", category: "Backend" },
+      // Cloud & DevOps
+      { name: "AWS", category: "Cloud" },
+      { name: "Azure", category: "Cloud" },
+      { name: "CI/CD", category: "DevOps" },
+      { name: "Azure Pipelines", category: "DevOps" },
+      { name: "GitHub Actions", category: "DevOps" },
+      { name: "DigitalOcean", category: "DevOps" },
+      // Databases
+      { name: "MongoDB", category: "Databases" },
+      { name: "PostgreSQL", category: "Databases" },
+      { name: "MySQL", category: "Databases" },
+      //AI
+      { name: "ChatGPT", category: "AI" },
+      { name: "Claude code", category: "AI" },
+      {name: "Cursor", category: "AI" }
     ],
   });
 
   await prisma.project.createMany({
     data: [
       {
-        title: "E-commerce Dashboard",
-        description: "A modern dashboard for managing products, orders, and customers with real-time analytics.",
-        techStack: "Next.js, TypeScript, Tailwind CSS, Chart.js",
-        demoUrl: "https://demo.example.com",
-        repoUrl: "https://github.com/johndoe/ecommerce-dashboard",
+        title: "Recruitment Platform (Brive)",
+        description: "Led development of critical frontend interfaces and components for a SaaS recruitment platform, improving UX by 25%, optimizing performance by 30%, implementing CI/CD pipelines that reduced deployment time by 40%, and collaborating cross-functionally to define technical strategy across candidate and recruiter platforms.",
+        techStack: "React, TypeScript, Tailwind CSS, Webpack, CI/CD, Docker, Azure, Claude code, Jest, Cursor",
+        demoUrl: "https://brivesoluciones.com/",
         featured: true,
       },
       {
-        title: "Task Management App",
-        description: "A collaborative task management application with real-time updates and team features.",
-        techStack: "React, Firebase, Tailwind CSS",
-        demoUrl: "https://demo.example.com",
-        repoUrl: "https://github.com/johndoe/task-app",
+        title: "SAT Appointment System Migration",
+        description: "Led migration from ColdFusion to JavaScript, improving efficiency by 50%. Complete overhaul of the appointment scheduling system for the Mexican tax authority.",
+        techStack: "Angular, TypeScript, Node.js, REST API, ",
         featured: true,
       },
       {
-        title: "Weather Forecast",
-        description: "A beautiful weather application with location-based forecasts and interactive maps.",
-        techStack: "React, OpenWeather API, CSS3",
-        demoUrl: "https://demo.example.com",
-        repoUrl: "https://github.com/johndoe/weather-app",
-        featured: false,
+        title: "Cinemex Payment Gateway (Smart Payment Solutions)",
+        description: "Developed and optimized payment gateway, fixing critical bugs and improving stability by 15%. Enhanced performance and reliability for cinema ticket purchases.",
+        techStack: "React, Node.js, Express, Microservices, AWS, CI/CD",
+        featured: true,
+      },
+      {
+        title: "GNP Corporate Client Portal",
+        description: "Designed and built a new corporate client portal for one of Mexico's largest insurance companies, increasing adoption by 35%. Defined frontend architecture and ensured seamless backend integration.",
+        techStack: "Next.js, TypeScript, Tailwind CSS, Node.js",
+        featured: true,
       },
     ],
   });
@@ -62,32 +107,32 @@ async function main() {
   await prisma.experience.createMany({
     data: [
       {
-        company: "Tech Corp",
+        company: "Brive",
         position: "Senior Frontend Developer",
-        description: "Leading the frontend team in building scalable web applications. Implemented design system and improved performance by 40%.",
-        startDate: new Date("2023-01-01"),
+        description: "Led development of new interfaces and critical components for the e-learning platform, improving UX by 25%. Defined and implemented CI/CD pipelines, reducing deployment time by 40%. Optimized initial load performance by 30% using lazy loading and code splitting. Collaborated with cross-functional teams to define technical strategies and prioritize tasks.",
+        startDate: new Date("2022-02-01"),
         current: true,
       },
       {
-        company: "StartupXYZ",
-        position: "Frontend Developer",
-        description: "Built and maintained multiple client projects using React and Next.js. Collaborated with designers to implement pixel-perfect UIs.",
-        startDate: new Date("2021-06-01"),
-        endDate: new Date("2022-12-31"),
+        company: "Smart Payment Solutions",
+        position: "Senior Frontend Developer",
+        description: "Developed and optimized payment gateway, fixing critical bugs and improving stability by 15%. Led a team of 5 frontend developers, establishing best practices. Reduced API response time by 20% through code optimization.",
+        startDate: new Date("2021-05-01"),
+        endDate: new Date("2022-02-28"),
         current: false,
       },
       {
-        company: "Web Agency",
-        position: "Junior Developer",
-        description: "Developed responsive websites for various clients. Gained experience with modern frontend frameworks and best practices.",
-        startDate: new Date("2020-01-01"),
-        endDate: new Date("2021-05-31"),
+        company: "GNP (Grupo Nacional Provincial)",
+        position: "Senior Frontend Developer",
+        description: "Designed and built a new corporate client portal, increasing adoption by 35%. Defined frontend architecture and ensured seamless backend integration.",
+        startDate: new Date("2021-11-01"),
+        endDate: new Date("2021-12-31"),
         current: false,
       },
     ],
   });
 
-  console.log("Database seeded successfully!");
+  console.log("Database seeded successfully with CV data!");
 }
 
 main()
